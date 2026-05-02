@@ -85,6 +85,17 @@ disable-pistons-in-territory: false
 # Should we disallow players to teleport into claimed land with chorus fruit?
 disable-chorus-teleport-in-territory: true
 
+# /f evolution
+# Runs an admin-defined command when a player executes /f evolution.
+# Placeholders in the command string: {player}, {faction}, {faction-tag} (color-stripped), {uuid}.
+evolution:
+  enabled: true
+  # If true, the command is dispatched as the console; otherwise it runs as the player.
+  as-console: true
+  command: "menu open factionEvolution {player}"
+  # Optional message sent to the player after dispatch ('' = none). Color codes with & supported.
+  message: "&6[Evolution] &7Opening evolution menu..."
+
 # ToolTips
 # This section is to configure tooltips for things like /f list
 tooltips:

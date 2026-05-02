@@ -28,6 +28,7 @@ public class FileManager {
         customFiles.put("corex", new CustomFile(getFile("corex", "corex.yml")));
         customFiles.put("missions", new CustomFile(getFile("configuration", "missions.yml")));
         customFiles.put("banners", new CustomFile(getFile("configuration", "banners.yml")));
+        customFiles.put("levels", new CustomFile(getFile("configuration", "levels.yml")));
     }
 
     private File getFile(String folder, String fileName) {
@@ -43,6 +44,7 @@ public class FileManager {
         customFiles.get("upgrades").setup(true, "configuration");
         customFiles.get("missions").setup(true, "configuration");
         customFiles.get("banners").setup(true, "configuration");
+        customFiles.get("levels").setup(true, "configuration");
     }
 
     public void loadCustomFiles() {
@@ -83,6 +85,10 @@ public class FileManager {
     }
     public CustomFile getRoster() {
         return getFileByKey("roster");
+    }
+
+    public CustomFile getLevels() {
+        return getFileByKey("levels");
     }
 
 }

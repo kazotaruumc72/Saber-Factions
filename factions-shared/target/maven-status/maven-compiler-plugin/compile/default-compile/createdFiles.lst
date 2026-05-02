@@ -347,6 +347,7 @@ com\massivecraft\factions\zcore\frame\fupgrades\provider\Provider.class
 com\massivecraft\factions\cmd\CmdFocus.class
 com\massivecraft\factions\tag\FactionTag.class
 com\massivecraft\factions\cmd\CommandRequirements$1.class
+com\massivecraft\factions\cmd\CmdEvolution.class
 com\massivecraft\factions\event\FPlayerRoleChangeEvent.class
 com\massivecraft\factions\zcore\frame\fupgrades\provider\stackers\RoseStackerProvider.class
 com\massivecraft\factions\cmd\audit\LogTimer$Timer.class
@@ -372,6 +373,7 @@ com\massivecraft\factions\event\FactionDisbandEvent.class
 com\massivecraft\factions\util\TitleUtil.class
 com\massivecraft\factions\cmd\CmdPowerBoost.class
 com\massivecraft\factions\listeners\SpawnerChunkListener.class
+com\massivecraft\factions\util\LevelManager.class
 com\massivecraft\factions\zcore\file\CustomFile.class
 org\saberdev\outpost\OutpostSelection.class
 com\massivecraft\factions\cmd\CmdTop$1.class

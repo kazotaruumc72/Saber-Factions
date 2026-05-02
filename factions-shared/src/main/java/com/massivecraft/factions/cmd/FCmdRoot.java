@@ -121,6 +121,7 @@ public class FCmdRoot extends FCommand implements CommandExecutor {
     public CmdTnt cmdTnt = new CmdTnt();
     public CmdNear cmdNear = new CmdNear();
     public CmdUpgrades cmdUpgrades = new CmdUpgrades();
+    public CmdEvolution cmdEvolution = new CmdEvolution();
     public CmdFly cmdFly = new CmdFly();
     public CmdColeader cmdColeader = new CmdColeader();
     //public CmdBanner cmdBanner = new CmdBanner();
@@ -288,6 +289,7 @@ public class FCmdRoot extends FCommand implements CommandExecutor {
         this.addSubCommand(this.cmdTnt);
         this.addSubCommand(this.cmdNear);
         this.addSubCommand(this.cmdUpgrades);
+        this.addSubCommand(this.cmdEvolution);
         this.addSubCommand(this.cmdColeader);
         //this.addSubCommand(this.cmdBanner);
         //this.addSubCommand(this.cmdTpBanner);

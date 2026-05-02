@@ -270,11 +270,17 @@ public class ClipPlaceholderAPIManager extends PlaceholderExpansion implements R
                 }
                 return TL.GENERIC_INFINITY.toString();
             case "faction_level":
-                int total = 0;
-                for (String upgradeId : UpgradeManager.getInstance().getUpgrades().keySet()) {
-                    total += faction.getUpgrade(upgradeId);
-                }
-                return String.valueOf(total);
+                return String.valueOf(LevelManager.getInstance().getLevel(faction));
+            case "faction_level_xp":
+                return String.valueOf(LevelManager.getInstance().getXp(faction));
+            case "faction_level_current_threshold":
+                return String.valueOf(LevelManager.getInstance().getCurrentThreshold(faction));
+            case "faction_level_next_threshold": {
+                long next = LevelManager.getInstance().getNextThreshold(faction);
+                return next < 0 ? "max" : String.valueOf(next);
+            }
+            case "faction_level_max":
+                return String.valueOf(LevelManager.getInstance().getMaxLevel());
             case "faction_warps_limit":
                 return String.valueOf(faction.getWarpsLimit());
             case "faction_tnt_bank_limit":

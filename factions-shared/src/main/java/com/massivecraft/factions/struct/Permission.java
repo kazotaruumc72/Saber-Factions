@@ -49,6 +49,7 @@ public enum Permission {
     DISBAND_ANY("disband.any"),
     DISCORD("discord"),
     DRAIN("drain"),
+    EVOLUTION("evolution"),
     FLY_FLY("fly"),
     FLY_WILDERNESS("fly.wilderness"),
     FLY_SAFEZONE("fly.safezone"),
