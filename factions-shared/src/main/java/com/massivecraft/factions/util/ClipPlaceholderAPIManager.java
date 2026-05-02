@@ -210,6 +210,52 @@ public class ClipPlaceholderAPIManager extends PlaceholderExpansion implements R
             case "faction_name_at_location":
                 Faction factionAtLocation = Board.getInstance().getFactionAt(FLocation.wrap(player.getLocation()));
                 return factionAtLocation != null ? factionAtLocation.getTag() : Factions.getInstance().getWilderness().getTag();
+            case "faction_kills":
+                return String.valueOf(faction.getKills());
+            case "faction_deaths":
+                return String.valueOf(faction.getDeaths());
+            case "faction_bancount":
+                return String.valueOf(faction.getBannedPlayers().size());
+            case "faction_header":
+                return TextUtil.titleize(fPlayer.hasFaction() ? faction.getTag(fPlayer) : Factions.getInstance().getWilderness().getTag());
+            case "faction_chunks":
+                return fPlayer.hasFaction() ? String.valueOf(faction.getLandRounded()) : "0";
+            case "faction_shield":
+                String shield = FactionsPlugin.getInstance().getShieldStatMap().get(faction);
+                return shield != null ? shield : "";
+            case "player_kills":
+                return String.valueOf(fPlayer.getKills());
+            case "player_deaths":
+                return String.valueOf(fPlayer.getDeaths());
+            case "player_total_online_visible":
+                int visibleOnline = 0;
+                for (Player online : Bukkit.getOnlinePlayers()) {
+                    if (player.canSee(online)) visibleOnline++;
+                }
+                return String.valueOf(visibleOnline);
+            case "max_warps":
+                return String.valueOf(FactionsPlugin.getInstance().getConfig().getInt("max-warps", 5));
+            case "max_allies":
+                return getMaxRelation("ally");
+            case "max_enemies":
+                return getMaxRelation("enemy");
+            case "max_truces":
+                return getMaxRelation("truce");
+            case "factionless":
+                return String.valueOf(FPlayers.getInstance().getOnlinePlayers().stream().filter(fp -> !fp.hasFaction()).count());
+            case "factionless_total":
+                return String.valueOf(FPlayers.getInstance().getAllFPlayers().stream().filter(fp -> !fp.hasFaction()).count());
+            case "total_online":
+                return String.valueOf(Bukkit.getOnlinePlayers().size());
+            case "faction_permanent":
+                return faction.isPermanent() ? "permanent" : "";
+            case "faction_raw_tag":
+                return fPlayer.hasFaction() ? ChatColor.stripColor(faction.getTag()) : "";
+            case "max_alts":
+                if (FactionsPlugin.getInstance().getConfig().getBoolean("f-alts.Enabled")) {
+                    return String.valueOf(Conf.factionAltMemberLimit);
+                }
+                return TL.GENERIC_INFINITY.toString();
         }
         //If it's not hardcoded lets try to grab it anyway
         boolean targetFaction = false;
@@ -235,6 +281,13 @@ public class ClipPlaceholderAPIManager extends PlaceholderExpansion implements R
         }
 
         return TL.PLACEHOLDERAPI_NULL.toString();
+    }
+
+    private String getMaxRelation(String relation) {
+        if (FactionsPlugin.getInstance().getConfig().getBoolean("max-relations.enabled", true)) {
+            return Integer.toString(FactionsPlugin.getInstance().getConfig().getInt("max-relations." + relation, 10));
+        }
+        return TL.GENERIC_INFINITY.toString();
     }
 
     private int countOn(Faction f, Relation relation, Boolean status, FPlayer player) {

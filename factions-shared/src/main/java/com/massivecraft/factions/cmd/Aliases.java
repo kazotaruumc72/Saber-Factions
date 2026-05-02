@@ -1,3 +1,4 @@
+
 package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.FactionsPlugin;

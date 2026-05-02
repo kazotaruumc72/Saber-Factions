@@ -5,6 +5,7 @@ import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.FactionsPlugin;
 import com.massivecraft.factions.cmd.audit.FLogType;
+import com.massivecraft.factions.cmd.outpost.CmdAdminAp;
 import com.massivecraft.factions.event.FPlayerJoinEvent;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.struct.Role;
@@ -18,6 +19,8 @@ public class CmdAdmin extends FCommand {
      * @author FactionsUUID Team - Modified By CmdrKittens
      */
 
+    public CmdAdminAp cmdAdminAp = new CmdAdminAp();
+
     public CmdAdmin() {
         super();
         this.getAliases().addAll(Aliases.admin);
@@ -25,6 +28,8 @@ public class CmdAdmin extends FCommand {
         this.getRequiredArgs().add("player");
 
         this.setRequirements(new CommandRequirements.Builder(Permission.ADMIN).build());
+
+        this.addSubCommand(this.cmdAdminAp);
     }
 
     @Override

@@ -1,0 +1,3 @@
+com\massivecraft\factions\missions\impl\MissionHandlerModern.class
+com\massivecraft\factions\compat\modern\ModernCompatibilityModule.class
+com\massivecraft\factions\listeners\vspecific\ChorusFruitListener.class

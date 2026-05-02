@@ -212,7 +212,8 @@ public class FCmdRoot extends FCommand implements CommandExecutor {
         this.addSubCommand(this.cmdChatSpy);
         this.addSubCommand(this.cmdClaim);
         this.addSubCommand(this.cmdConfig);
-        this.addSubCommand(this.cmdCreate);
+        // Disabled command (functionality preserved via cmdCreate field for internal callers)
+        // this.addSubCommand(this.cmdCreate);
         this.addSubCommand(this.cmdCreateAdmin);
         this.addSubCommand(this.cmdInvite);
         this.addSubCommand(this.cmdJoin);
@@ -220,7 +221,8 @@ public class FCmdRoot extends FCommand implements CommandExecutor {
         this.addSubCommand(this.cmdDeinvite);
         this.addSubCommand(this.cmdDescription);
         this.addSubCommand(this.cmdDelHome);
-        this.addSubCommand(this.cmdDisband);
+        // Disabled command (functionality preserved via cmdDisband field for internal callers)
+        // this.addSubCommand(this.cmdDisband);
         this.addSubCommand(this.cmdHelp);
         this.addSubCommand(this.cmdHome);
         this.addSubCommand(this.cmdLeave);
@@ -270,9 +272,11 @@ public class FCmdRoot extends FCommand implements CommandExecutor {
         this.addSubCommand(this.cmdClaimLine);
         this.addSubCommand(this.cmdAHome);
         this.addSubCommand(this.cmdPerm);
-        this.addSubCommand(this.cmdPromote);
+        // Disabled command (functionality preserved via cmdPromote field for internal callers)
+        // this.addSubCommand(this.cmdPromote);
         this.addSubCommand(this.cmdDebug);
-        this.addSubCommand(this.cmdDemote);
+        // Disabled command (functionality preserved via cmdDemote field for internal callers)
+        // this.addSubCommand(this.cmdDemote);
         this.addSubCommand(this.cmdSetDefaultRole);
         this.addSubCommand(this.cmdMapHeight);
         this.addSubCommand(this.cmdClaimAt);

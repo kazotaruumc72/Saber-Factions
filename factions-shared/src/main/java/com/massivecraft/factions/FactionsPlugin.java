@@ -48,6 +48,8 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.saberdev.outpost.OutpostListener;
+import org.saberdev.outpost.OutpostManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
@@ -102,8 +104,8 @@ public class FactionsPlugin extends MPlugin {
     private boolean locked = false;
     private Integer AutoLeaveTask = null;
     private ClipPlaceholderAPIManager clipPlaceholderAPIManager;
-    private boolean mvdwPlaceholderAPIManager = false;
     private CompatibilityModule compatibilityModule;
+    private OutpostManager outpostManager;
 
     public FactionsPlugin() {
         instance = this;
@@ -190,6 +192,9 @@ public class FactionsPlugin extends MPlugin {
 
             this.factionDataHelper = new FactionDataHelper(this.getDataFolder());
             Bukkit.getPluginManager().registerEvents(new FactionDataListener(this.factionDataHelper), this);
+
+            this.outpostManager = new OutpostManager(this.getDataFolder());
+            Bukkit.getPluginManager().registerEvents(new OutpostListener(this.outpostManager), this);
             Bukkit.getScheduler().runTaskLater(this, () -> {
                 for (Faction faction : Factions.getInstance().getAllNormalFactions()) {
                     this.factionDataHelper.getOrLoadFactionData(faction);
@@ -253,12 +258,6 @@ public class FactionsPlugin extends MPlugin {
         } else {
             PlaceholderApi = false;
         }
-
-        Plugin mvdw = Bukkit.getPluginManager().getPlugin("MVdWPlaceholderAPI");
-        if (mvdw != null && mvdw.isEnabled()) {
-            this.mvdwPlaceholderAPIManager = true;
-            Logger.print("Found MVdWPlaceholderAPI. Adding hooks.", Logger.PrefixType.DEFAULT);
-        }
     }
 
 
@@ -274,8 +273,8 @@ public class FactionsPlugin extends MPlugin {
         return this.clipPlaceholderAPIManager != null;
     }
 
-    public boolean isMVdWPlaceholderAPIHooked() {
-        return this.mvdwPlaceholderAPIManager;
+    public OutpostManager getOutpostManager() {
+        return this.outpostManager;
     }
 
     private void setupPermissions() {

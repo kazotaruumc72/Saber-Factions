@@ -16,6 +16,7 @@ public enum Permission {
     ADMIN("admin"),
     ALTS("alts"),
     ADMIN_ANY("admin.any"),
+    OUTPOST_ADMIN("admin.ap"),
     AHOME("ahome"),
     ANNOUNCE("announce"),
     AUDIT("audit"),

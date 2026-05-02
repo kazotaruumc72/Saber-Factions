@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
@@ -71,7 +70,7 @@ public class AntiTntEnemyClaim implements Listener {
                 && ((Item) entity).getItemStack().getType() == tntMaterial;
     }
 
-    private void tagFromIgniter(Entity entity, LivingEntity source) {
+    private void tagFromIgniter(Entity entity, Entity source) {
         if (!(source instanceof Player)) return;
         FPlayer fp = FPlayers.getInstance().getByPlayer((Player) source);
         if (fp == null || !fp.hasFaction()) return;
