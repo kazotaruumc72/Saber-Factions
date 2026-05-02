@@ -6,6 +6,7 @@ import com.massivecraft.factions.struct.Relation;
 import com.massivecraft.factions.tag.FactionTag;
 import com.massivecraft.factions.tag.Tag;
 import com.massivecraft.factions.util.timer.TimerManager;
+import com.massivecraft.factions.zcore.frame.fupgrades.UpgradeManager;
 import com.massivecraft.factions.zcore.util.TL;
 import com.massivecraft.factions.zcore.util.TextUtil;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -85,6 +86,18 @@ public class ClipPlaceholderAPIManager extends PlaceholderExpansion implements R
         if (placeholder.contains("faction_territory")) {
             faction = Board.getInstance().getFactionAt(fPlayer.getLastStoodAt());
             placeholder = TextUtil.replace(placeholder, "_territory", "");
+        }
+
+        // Dynamic upgrade placeholders: %factionsuuid_faction_upgrade_<id>% / %factionsuuid_faction_upgrade_<id>_max%
+        if (placeholder.startsWith("faction_upgrade_")) {
+            String tail = placeholder.substring("faction_upgrade_".length());
+            boolean wantMax = tail.endsWith("_max");
+            if (wantMax) tail = tail.substring(0, tail.length() - "_max".length());
+            String upgradeId = resolveUpgradeId(tail);
+            if (upgradeId == null) return "0";
+            return wantMax
+                    ? String.valueOf(UpgradeManager.getInstance().getMaxLevel(upgradeId))
+                    : String.valueOf(faction.getUpgrade(upgradeId));
         }
         switch (placeholder) {
             // First list player stuff
@@ -256,6 +269,74 @@ public class ClipPlaceholderAPIManager extends PlaceholderExpansion implements R
                     return String.valueOf(Conf.factionAltMemberLimit);
                 }
                 return TL.GENERIC_INFINITY.toString();
+            case "faction_level":
+                int total = 0;
+                for (String upgradeId : UpgradeManager.getInstance().getUpgrades().keySet()) {
+                    total += faction.getUpgrade(upgradeId);
+                }
+                return String.valueOf(total);
+            case "faction_warps_limit":
+                return String.valueOf(faction.getWarpsLimit());
+            case "faction_tnt_bank_limit":
+                return String.valueOf(faction.getTntBankLimit());
+            case "faction_spawner_chunk_count":
+                return String.valueOf(faction.getSpawnerChunkCount());
+            case "faction_allowed_spawner_chunks":
+                return String.valueOf(faction.getAllowedSpawnerChunks());
+            case "faction_roster_kicks":
+                return String.valueOf(faction.getRosterKicks());
+            case "faction_missions":
+                return String.valueOf(faction.getMissions().size());
+            case "faction_focused":
+                String focused = faction.getFocused();
+                return focused == null ? "" : focused;
+            case "faction_id":
+                return faction.getId();
+            case "faction_size_value":
+                return String.valueOf(faction.getSize());
+            case "faction_powerboost_raw":
+                return String.valueOf(faction.getPowerBoost());
+            case "faction_has_home":
+                return String.valueOf(faction.hasHome());
+            case "faction_is_peaceful":
+                return String.valueOf(faction.isPeaceful());
+            case "faction_is_permanent":
+                return String.valueOf(faction.isPermanent());
+            case "faction_is_weewoo":
+                return String.valueOf(faction.isWeeWoo());
+            case "faction_is_protected":
+                return String.valueOf(faction.isProtected());
+            case "faction_is_power_frozen":
+                return String.valueOf(faction.isPowerFrozen());
+            case "player_powermin":
+                return String.valueOf(fPlayer.getPowerMinRounded());
+            case "player_is_admin_bypassing":
+                return String.valueOf(fPlayer.isAdminBypassing());
+            case "player_is_alt":
+                return String.valueOf(fPlayer.isAlt());
+            case "player_is_stealth":
+                return String.valueOf(fPlayer.isStealthEnabled());
+            case "player_has_friendly_fire":
+                return String.valueOf(fPlayer.hasFriendlyFire());
+            case "player_has_enemies_nearby":
+                return String.valueOf(fPlayer.hasEnemiesNearby());
+            case "player_in_own_territory":
+                return String.valueOf(fPlayer.isInOwnTerritory());
+            case "player_in_enemy_territory":
+                return String.valueOf(fPlayer.isInEnemyTerritory());
+            case "player_in_ally_territory":
+                return String.valueOf(fPlayer.isInAllyTerritory());
+            case "player_in_neutral_territory":
+                return String.valueOf(fPlayer.isInNeutralTerritory());
+            case "player_chat_tag":
+                return fPlayer.getChatTag();
+            case "player_title":
+                String title = fPlayer.getTitle();
+                return title == null ? "" : title;
+            case "player_name_and_title":
+                return fPlayer.getNameAndTitle();
+            case "player_name_and_tag":
+                return fPlayer.getNameAndTag();
         }
         //If it's not hardcoded lets try to grab it anyway
         boolean targetFaction = false;
@@ -281,6 +362,16 @@ public class ClipPlaceholderAPIManager extends PlaceholderExpansion implements R
         }
 
         return TL.PLACEHOLDERAPI_NULL.toString();
+    }
+
+    private String resolveUpgradeId(String key) {
+        if (key == null || key.isEmpty()) return null;
+        for (String configured : UpgradeManager.getInstance().getUpgrades().keySet()) {
+            if (configured.equalsIgnoreCase(key) || configured.replace("-", "_").equalsIgnoreCase(key)) {
+                return configured;
+            }
+        }
+        return null;
     }
 
     private String getMaxRelation(String relation) {
