@@ -10,6 +10,7 @@ import com.massivecraft.factions.cmd.claim.*;
 import com.massivecraft.factions.cmd.drain.CmdDrain;
 import com.massivecraft.factions.cmd.econ.CmdMoney;
 import com.massivecraft.factions.cmd.grace.CmdGrace;
+import com.massivecraft.factions.cmd.level.CmdLevel;
 import com.massivecraft.factions.cmd.points.CmdPoints;
 import com.massivecraft.factions.cmd.relational.*;
 import com.massivecraft.factions.cmd.reserve.CmdReserve;
@@ -122,6 +123,7 @@ public class FCmdRoot extends FCommand implements CommandExecutor {
     public CmdNear cmdNear = new CmdNear();
     public CmdUpgrades cmdUpgrades = new CmdUpgrades();
     public CmdEvolution cmdEvolution = new CmdEvolution();
+    public CmdLevel cmdLevel = new CmdLevel();
     public CmdFly cmdFly = new CmdFly();
     public CmdColeader cmdColeader = new CmdColeader();
     //public CmdBanner cmdBanner = new CmdBanner();
@@ -290,6 +292,7 @@ public class FCmdRoot extends FCommand implements CommandExecutor {
         this.addSubCommand(this.cmdNear);
         this.addSubCommand(this.cmdUpgrades);
         this.addSubCommand(this.cmdEvolution);
+        this.addSubCommand(this.cmdLevel);
         this.addSubCommand(this.cmdColeader);
         //this.addSubCommand(this.cmdBanner);
         //this.addSubCommand(this.cmdTpBanner);

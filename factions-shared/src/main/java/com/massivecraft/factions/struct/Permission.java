@@ -50,6 +50,8 @@ public enum Permission {
     DISCORD("discord"),
     DRAIN("drain"),
     EVOLUTION("evolution"),
+    LEVEL("level"),
+    LEVEL_TOP("level.top"),
     FLY_FLY("fly"),
     FLY_WILDERNESS("fly.wilderness"),
     FLY_SAFEZONE("fly.safezone"),

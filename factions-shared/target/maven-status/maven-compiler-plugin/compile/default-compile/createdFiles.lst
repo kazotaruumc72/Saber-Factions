@@ -154,6 +154,7 @@ com\massivecraft\factions\zcore\fperms\FPermAction.class
 com\massivecraft\factions\struct\ChatMode.class
 com\massivecraft\factions\util\spiral\coord\ChunkCoord.class
 com\massivecraft\factions\util\timer\type\GraceTimer.class
+com\massivecraft\factions\cmd\level\CmdLevel.class
 com\massivecraft\factions\missions\CmdMissions.class
 com\massivecraft\factions\zcore\MPluginSecretPlayerListener.class
 org\saberdev\corex\addons\AntiMobTargeting.class
@@ -285,6 +286,7 @@ com\massivecraft\factions\compat\CompatibilityModule.class
 com\massivecraft\factions\cmd\roster\CmdRosterRemove.class
 com\massivecraft\factions\cmd\CmdOwner.class
 com\massivecraft\factions\zcore\persist\MemoryFPlayer.class
+com\massivecraft\factions\cmd\level\CmdLevelTop.class
 com\massivecraft\factions\cmd\tnt\tntprovider\FactionTNTProvider.class
 com\massivecraft\factions\cmd\outpost\CmdAdminApSave.class
 com\massivecraft\factions\missions\MissionType.class
