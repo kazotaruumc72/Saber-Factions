@@ -250,6 +250,7 @@ com\massivecraft\factions\zcore\persist\MemoryBoard$MemoryBoardMap$1.class
 com\massivecraft\factions\zcore\util\TagUtil.class
 org\saberdev\outpost\OutpostWand.class
 com\massivecraft\factions\listeners\FactionsBlockListener.class
+com\massivecraft\factions\cmd\CmdFAdmin.class
 com\massivecraft\factions\cmd\CmdInventorySee.class
 com\massivecraft\factions\listeners\FactionsExploitListener.class
 com\massivecraft\factions\util\Metrics$1.class

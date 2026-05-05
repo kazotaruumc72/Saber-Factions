@@ -10,6 +10,7 @@ import com.massivecraft.factions.compat.CompatibilityBootstrap;
 import com.massivecraft.factions.compat.CompatibilityContext;
 import com.massivecraft.factions.compat.CompatibilityModule;
 import com.massivecraft.factions.cmd.CmdAutoHelp;
+import com.massivecraft.factions.cmd.CmdFAdmin;
 import com.massivecraft.factions.cmd.CommandContext;
 import com.massivecraft.factions.cmd.FCmdRoot;
 import com.massivecraft.factions.cmd.FCommand;
@@ -246,6 +247,12 @@ public class FactionsPlugin extends MPlugin {
 
             this.getCommand(refCommand).setExecutor(cmdBase);
             if (!usesBrigadierCompletions()) this.getCommand(refCommand).setTabCompleter(this);
+
+            if (this.getCommand("fadmin") != null) {
+                CmdFAdmin fAdminCommand = new CmdFAdmin();
+                this.getCommand("fadmin").setExecutor(fAdminCommand);
+                this.getCommand("fadmin").setTabCompleter(fAdminCommand);
+            }
 
 
             this.postEnable();

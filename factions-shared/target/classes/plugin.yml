@@ -10,7 +10,13 @@ commands:
   factions:
     description: Reference command for Factions.
     aliases: [f]
+  fadmin:
+    description: Faction admin power management commands.
+    usage: /fadmin power <give|remove> <player> [amount]
 permissions:
+  factions.fadmin:
+    description: Use the /fadmin power management commands.
+    default: op
   factions.kit.admin:
     description: All faction permissions.
     children:
