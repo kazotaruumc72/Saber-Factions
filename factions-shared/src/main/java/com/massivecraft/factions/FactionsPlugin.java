@@ -48,6 +48,8 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.saberdev.nexoclaim.NexoClaimProtectorListener;
+import org.saberdev.nexoclaim.NexoClaimProtectorManager;
 import org.saberdev.outpost.OutpostListener;
 import org.saberdev.outpost.OutpostManager;
 import org.bukkit.entity.Player;
@@ -106,6 +108,7 @@ public class FactionsPlugin extends MPlugin {
     private ClipPlaceholderAPIManager clipPlaceholderAPIManager;
     private CompatibilityModule compatibilityModule;
     private OutpostManager outpostManager;
+    private NexoClaimProtectorManager nexoClaimProtectorManager;
 
     public FactionsPlugin() {
         instance = this;
@@ -195,6 +198,13 @@ public class FactionsPlugin extends MPlugin {
 
             this.outpostManager = new OutpostManager(this.getDataFolder());
             Bukkit.getPluginManager().registerEvents(new OutpostListener(this.outpostManager), this);
+
+            this.nexoClaimProtectorManager = new NexoClaimProtectorManager(this);
+            if (this.nexoClaimProtectorManager.isEnabled()) {
+                Bukkit.getPluginManager().registerEvents(
+                        new NexoClaimProtectorListener(this.nexoClaimProtectorManager), this);
+                this.nexoClaimProtectorManager.startTicking();
+            }
             Bukkit.getScheduler().runTaskLater(this, () -> {
                 for (Faction faction : Factions.getInstance().getAllNormalFactions()) {
                     this.factionDataHelper.getOrLoadFactionData(faction);
@@ -277,6 +287,10 @@ public class FactionsPlugin extends MPlugin {
         return this.outpostManager;
     }
 
+    public NexoClaimProtectorManager getNexoClaimProtectorManager() {
+        return this.nexoClaimProtectorManager;
+    }
+
     private void setupPermissions() {
         try {
             RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
@@ -307,6 +321,10 @@ public class FactionsPlugin extends MPlugin {
         if (this.factionDataHelper != null) {
             this.factionDataHelper.saveAllCachedData();
             this.factionDataHelper.shutdown();
+        }
+
+        if (this.nexoClaimProtectorManager != null) {
+            this.nexoClaimProtectorManager.stopTicking();
         }
 
         super.onDisable();

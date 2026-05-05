@@ -229,6 +229,7 @@ com\massivecraft\factions\cmd\operator\CmdSetup.class
 com\massivecraft\factions\struct\Permission.class
 com\massivecraft\factions\cmd\claim\CmdAutoClaim.class
 com\massivecraft\factions\cmd\CommandRequirements.class
+org\saberdev\nexoclaim\NexoClaimProtectorListener.class
 com\massivecraft\factions\cmd\outpost\CmdAdminApUnset.class
 com\massivecraft\factions\util\AsciiCompass.class
 com\massivecraft\factions\cmd\CmdSetDiscord.class
@@ -284,6 +285,7 @@ com\massivecraft\factions\util\JSONUtils.class
 org\saberdev\corex\addons\BlockedEnchantments.class
 com\massivecraft\factions\compat\CompatibilityModule.class
 com\massivecraft\factions\cmd\roster\CmdRosterRemove.class
+org\saberdev\nexoclaim\NexoCompat.class
 com\massivecraft\factions\cmd\CmdOwner.class
 com\massivecraft\factions\zcore\persist\MemoryFPlayer.class
 com\massivecraft\factions\cmd\level\CmdLevelTop.class
@@ -302,6 +304,7 @@ com\massivecraft\factions\Factions.class
 com\massivecraft\factions\cmd\audit\FAuditMenu$FAuditLogMenu.class
 com\massivecraft\factions\util\flight\stuct\AsyncPlayerMap.class
 com\massivecraft\factions\util\spiral\TaskProgressTracker.class
+org\saberdev\nexoclaim\NexoClaimProtectorManager.class
 org\saberdev\corex\addons\ArmorSwap.class
 com\massivecraft\factions\data\listener\FactionDataListener.class
 com\massivecraft\factions\cmd\CmdInspect.class
@@ -331,6 +334,7 @@ com\massivecraft\factions\zcore\persist\json\JSONFactions.class
 com\massivecraft\factions\tag\PlayerTag.class
 org\saberdev\corex\addons\EnemySpawnerMine.class
 com\massivecraft\factions\cmd\relational\CmdRelationTruce.class
+org\saberdev\nexoclaim\FoodEntry.class
 com\massivecraft\factions\cmd\econ\CmdMoneyTransferFp.class
 com\massivecraft\factions\cmd\CmdStrikesGive.class
 com\massivecraft\factions\cmd\CmdPermanentPower.class
@@ -420,6 +424,7 @@ com\massivecraft\factions\cmd\tnt\tntprovider\PlayerTNTProvider.class
 com\massivecraft\factions\Conf.class
 com\massivecraft\factions\zcore\file\impl\FileManager.class
 com\massivecraft\factions\util\timer\TimerRunnable.class
+org\saberdev\nexoclaim\ProtectorData.class
 com\massivecraft\factions\cmd\econ\CmdMoneyTransferFf.class
 com\massivecraft\factions\util\VersionProtocol.class
 com\massivecraft\factions\zcore\frame\fupgrades\provider\stackers\WildStackerProvider.class
@@ -467,5 +472,6 @@ org\saberdev\corex\addons\GappleCooldown.class
 com\massivecraft\factions\integration\Econ.class
 com\massivecraft\factions\scoreboards\FScoreboard.class
 com\massivecraft\factions\cmd\roster\struct\RosterPlayerManager.class
+org\saberdev\nexoclaim\ProtectorDefinition.class
 com\massivecraft\factions\util\FastMath.class
 com\massivecraft\factions\util\timer\Timer.class

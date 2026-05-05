@@ -15,6 +15,7 @@ C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\jav
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\CmdSB.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\event\FactionDisbandEvent.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\util\adapters\MyLocationTypeAdapter.java
+C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\org\saberdev\nexoclaim\ProtectorData.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\check\CheckSettingsFrame.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\CmdPower.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\integration\dynmap\TempMarkerSet.java
@@ -44,6 +45,7 @@ C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\jav
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\integration\dynmap\TempAreaMarker.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\util\TimeUtil.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\reserve\ListParameterizedType.java
+C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\org\saberdev\nexoclaim\NexoClaimProtectorManager.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\CmdMod.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\org\saberdev\corex\addons\InstaSpongeBreak.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\roles\CmdDemote.java
@@ -104,6 +106,7 @@ C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\jav
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\zcore\fperms\FPermKey.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\econ\CmdMoneyBalance.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\util\adapters\PermissionsMapTypeAdapter.java
+C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\org\saberdev\nexoclaim\FoodEntry.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\addon\AddonManager.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\tnt\tntprovider\FactionTNTProvider.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\org\saberdev\corex\CoreX.java
@@ -168,6 +171,7 @@ C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\jav
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\util\spiral\SpiralTask.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\check\CmdWeeWoo.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\data\helpers\FactionDataHelper.java
+C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\org\saberdev\nexoclaim\ProtectorDefinition.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\CmdSaveAll.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\points\CmdPointsAdd.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\org\saberdev\corex\addons\AntiEndPortal.java
@@ -293,6 +297,7 @@ C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\jav
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\zcore\frame\fupgrades\provider\stackers\WildStackerProvider.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\CmdLeave.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\util\adapters\MapFLocToStringSetTypeAdapter.java
+C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\org\saberdev\nexoclaim\NexoCompat.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\audit\LogTimer.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\CmdStuck.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\event\FPlayerLeaveEvent.java
@@ -305,6 +310,7 @@ C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\jav
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\zcore\persist\MemoryFPlayers.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\CmdDeinvite.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\CmdMap.java
+C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\org\saberdev\nexoclaim\NexoClaimProtectorListener.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\tnt\tntprovider\PlayerTNTProvider.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\listeners\SaberGUIListener.java
 C:\Users\Utilisateur\Desktop\plugins\Saber-Factions\factions-shared\src\main\java\com\massivecraft\factions\cmd\roster\struct\RosterPlayer.java
