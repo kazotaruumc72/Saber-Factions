@@ -38,8 +38,8 @@ public class MissionGUI implements FactionGUI {
     private final Inventory inventory;
     private final Map<Integer, String> slots;
 
-    BukkitTask updateItemsTask = null;
-    BukkitTask cancelTask = null;
+    com.tcoded.folialib.wrapper.task.WrappedTask updateItemsTask = null;
+    com.tcoded.folialib.wrapper.task.WrappedTask cancelTask = null;
 
 
     public MissionGUI(FactionsPlugin plugin, FPlayer fPlayer) {
@@ -55,13 +55,13 @@ public class MissionGUI implements FactionGUI {
         //This means that every time we use openInventory to show the inventory once again
         //the inventory technically closes and opens up once again, triggering this event each time.
         if (cancelTask != null)
-            cancelTask.cancel();
+            com.massivecraft.factions.util.FactionsScheduler.cancel(cancelTask);
         //Because of what's mentioned before, we check on the next tick if the inventory that the player
         //is currently viewing is the same as this GUI, if it isn't, the updateItemsTask gets cancelled
-        cancelTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
+        cancelTask = com.massivecraft.factions.util.FactionsScheduler.runLater(() -> {
             if(player.getOpenInventory().getTopInventory() != inventory)
                 if (updateItemsTask != null)
-                    updateItemsTask.cancel();
+                    com.massivecraft.factions.util.FactionsScheduler.cancel(updateItemsTask);
         }, 1);
     }
 
@@ -245,7 +245,7 @@ public class MissionGUI implements FactionGUI {
 
 
                         if(updateItemsTask == null)
-                            updateItemsTask = Bukkit.getScheduler().runTaskTimer(plugin, this::updateGUI, 20L, 20L);
+                            updateItemsTask = com.massivecraft.factions.util.FactionsScheduler.runTimer(this::updateGUI, 20L, 20L);
                     }
 
                     if (plugin.getFileManager().getMissions().getConfig().getBoolean("Allow-Cancellation-Of-Missions")) {

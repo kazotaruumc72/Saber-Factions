@@ -2,6 +2,9 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
+import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.event.FactionDisbandEvent.PlayerDisbandReason;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -20,7 +23,7 @@ import java.util.Locale;
 public class CmdFAdmin implements CommandExecutor, TabCompleter {
 
     private static final String PERMISSION = "factions.fadmin";
-    private static final List<String> ROOT_SUBS = Collections.singletonList("power");
+    private static final List<String> ROOT_SUBS = Arrays.asList("power", "disband");
     private static final List<String> POWER_ACTIONS = Arrays.asList("give", "remove");
     private static final List<String> AMOUNT_HINTS = Arrays.asList("1", "5", "10", "25", "50", "100");
 
@@ -31,7 +34,16 @@ public class CmdFAdmin implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if (args.length == 0 || !args[0].equalsIgnoreCase("power")) {
+        if (args.length == 0) {
+            sendUsage(sender, label);
+            return true;
+        }
+
+        String root = args[0].toLowerCase(Locale.ROOT);
+        if (root.equals("disband")) {
+            return handleDisband(sender, label, args);
+        }
+        if (!root.equals("power")) {
             sendUsage(sender, label);
             return true;
         }
@@ -104,6 +116,14 @@ public class CmdFAdmin implements CommandExecutor, TabCompleter {
                 if (args[0].equalsIgnoreCase("power")) {
                     return filter(POWER_ACTIONS, args[1]);
                 }
+                if (args[0].equalsIgnoreCase("disband")) {
+                    List<String> tags = new ArrayList<>();
+                    tags.add("all");
+                    for (Faction faction : Factions.getInstance().getAllNormalFactions()) {
+                        tags.add(faction.getTag());
+                    }
+                    return filter(tags, args[1]);
+                }
                 return Collections.emptyList();
             case 3:
                 if (args[0].equalsIgnoreCase("power") && isPowerAction(args[1])) {
@@ -122,6 +142,48 @@ public class CmdFAdmin implements CommandExecutor, TabCompleter {
             default:
                 return Collections.emptyList();
         }
+    }
+
+    private boolean handleDisband(CommandSender sender, String label, String[] args) {
+        if (args.length < 2) {
+            sendUsage(sender, label);
+            return true;
+        }
+
+        String target = args[1];
+        if (target.equalsIgnoreCase("all")) {
+            List<Faction> factions = new ArrayList<>(Factions.getInstance().getAllNormalFactions());
+            int disbanded = 0;
+            for (Faction faction : factions) {
+                if (faction == null || !faction.isNormal()) {
+                    continue;
+                }
+                String tag = faction.getTag();
+                faction.disband(null, PlayerDisbandReason.PLUGIN);
+                disbanded++;
+                sender.sendMessage(ChatColor.GRAY + " - Disbanded " + ChatColor.YELLOW + tag);
+            }
+            sender.sendMessage(ChatColor.GREEN + "Disbanded "
+                    + ChatColor.YELLOW + disbanded
+                    + ChatColor.GREEN + " faction(s).");
+            return true;
+        }
+
+        Faction faction = Factions.getInstance().getByTag(target);
+        if (faction == null) {
+            faction = Factions.getInstance().getBestTagMatch(target);
+        }
+        if (faction == null || !faction.isNormal()) {
+            sender.sendMessage(ChatColor.RED + "Unknown faction: " + target);
+            return true;
+        }
+
+        String tag = faction.getTag();
+        faction.disband(null, PlayerDisbandReason.PLUGIN);
+        sender.sendMessage(ChatColor.GREEN + "Disbanded faction "
+                + ChatColor.YELLOW + tag
+                + ChatColor.GREEN + ".");
+        return true;
     }
 
     private boolean isPowerAction(String value) {
@@ -143,5 +205,7 @@ public class CmdFAdmin implements CommandExecutor, TabCompleter {
         sender.sendMessage(ChatColor.YELLOW + "Usage:");
         sender.sendMessage(ChatColor.GRAY + "/" + label + " power give <player> [amount]");
         sender.sendMessage(ChatColor.GRAY + "/" + label + " power remove <player> [amount]");
+        sender.sendMessage(ChatColor.GRAY + "/" + label + " disband <faction>");
+        sender.sendMessage(ChatColor.GRAY + "/" + label + " disband all");
     }
 }

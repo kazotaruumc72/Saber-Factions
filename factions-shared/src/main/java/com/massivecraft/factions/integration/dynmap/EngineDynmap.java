@@ -128,7 +128,7 @@ public class EngineDynmap {
         }
 
         // Shedule non thread safe sync at the end!
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(FactionsPlugin.getInstance(), () -> {
+        com.massivecraft.factions.util.FactionsScheduler.runTimer(() -> {
             final Map<String, TempMarker> homes = createHomes();
             final Map<String, TempAreaMarker> areas = createAreas();
             final Map<String, Set<String>> playerSets = createPlayersets();

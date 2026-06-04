@@ -108,11 +108,11 @@ public class CmdAdmin extends FCommand {
     }
 
     private void setRole(FPlayer fp, Role r) {
-        FactionsPlugin.getInstance().getServer().getScheduler().runTask(FactionsPlugin.instance, () -> fp.setRole(r));
+        com.massivecraft.factions.util.FactionsScheduler.run(() -> fp.setRole(r));
     }
 
     private void promoteNewLeader(Faction f) {
-        FactionsPlugin.getInstance().getServer().getScheduler().runTask(FactionsPlugin.instance, (Runnable) f::promoteNewLeader);
+        com.massivecraft.factions.util.FactionsScheduler.run(f::promoteNewLeader);
     }
 
     public TL getUsageTranslation() {

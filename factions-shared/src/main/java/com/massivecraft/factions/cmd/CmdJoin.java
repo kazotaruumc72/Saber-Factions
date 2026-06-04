@@ -27,7 +27,7 @@ public class CmdJoin extends FCommand {
 
     @Override
     public void perform(CommandContext context) {
-        FactionsPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(FactionsPlugin.instance, () -> {
+        com.massivecraft.factions.util.FactionsScheduler.runAsync(() -> {
 
             Faction faction = context.argAsFaction(0);
             if (faction == null) return;
@@ -140,7 +140,7 @@ public class CmdJoin extends FCommand {
                 }
             }
 
-            FactionsPlugin.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(FactionsPlugin.getInstance(), () -> {
+            com.massivecraft.factions.util.FactionsScheduler.run(() -> {
                 FPlayerJoinEvent joinEvent = new FPlayerJoinEvent(FPlayers.getInstance().getByPlayer(context.player), faction, FPlayerJoinEvent.PlayerJoinReason.COMMAND);
                 Bukkit.getServer().getPluginManager().callEvent(joinEvent);
                 if (joinEvent.isCancelled()) {

@@ -90,8 +90,7 @@ public class CheckTask implements Runnable {
                 found.add(faction.getId());
 
                 faction.msg(TL.CHECK_WALLS_CHECK);
-                Bukkit.getScheduler().runTask(
-                        FactionsPlugin.getInstance(),
+                com.massivecraft.factions.util.FactionsScheduler.run(
                         () -> faction.getChecks().put(currentTime, "J")
                 );
             }
@@ -105,8 +104,7 @@ public class CheckTask implements Runnable {
                 found.add(faction.getId());
 
                 faction.msg(TL.CHECK_BUFFERS_CHECK);
-                Bukkit.getScheduler().runTask(
-                        FactionsPlugin.getInstance(),
+                com.massivecraft.factions.util.FactionsScheduler.run(
                         () -> faction.getChecks().put(currentTime, "H")
                 );
             }

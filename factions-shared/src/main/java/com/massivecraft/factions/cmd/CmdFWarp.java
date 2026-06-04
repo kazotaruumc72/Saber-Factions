@@ -35,7 +35,10 @@ public class CmdFWarp extends FCommand {
     public void perform(CommandContext context) {
 
         if (context.args.size() == 0) {
-            new FactionWarpsFrame(context.player, context.faction).openGUI(FactionsPlugin.getInstance());
+            com.massivecraft.factions.integration.zmenu.ZMenuHook zMenuHook = FactionsPlugin.getInstance().getZMenuHook();
+            if (zMenuHook == null || !zMenuHook.openFactionWarps(context.player, context.faction)) {
+                new FactionWarpsFrame(context.player, context.faction).openGUI(FactionsPlugin.getInstance());
+            }
         } else if (context.args.size() > 2) {
             context.msg(TL.COMMAND_FWARP_COMMANDFORMAT);
         } else {

@@ -24,10 +24,10 @@ public class WarmUpUtil {
             }
 
             player.msg(translationKey.format(action, delay));
-            int id = Bukkit.getScheduler().runTaskLater(FactionsPlugin.getInstance(), () -> {
+            com.tcoded.folialib.wrapper.task.WrappedTask id = FactionsScheduler.runLater(() -> {
                 player.stopWarmup();
                 runnable.run();
-            }, delay * 20).getTaskId();
+            }, delay * 20);
             player.addWarmup(warmup, id);
         } else {
             runnable.run();

@@ -69,7 +69,7 @@ public abstract class MemoryFPlayer implements FPlayer {
     protected boolean spyingChat = false;
     protected boolean showScoreboard = true;
     protected WarmUpUtil.Warmup warmup;
-    protected int warmupTask;
+    protected com.tcoded.folialib.wrapper.task.WrappedTask warmupTask;
     protected boolean isAdminBypassing = false;
     protected int kills, deaths;
     protected boolean willAutoLeave = true;
@@ -720,7 +720,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         };
 
         if (Bukkit.isPrimaryThread()) regen.run();
-        else Bukkit.getScheduler().runTask(FactionsPlugin.getInstance(), regen);
+        else com.massivecraft.factions.util.FactionsScheduler.run(regen);
     }
 
     public void losePowerFromBeingOffline() {
@@ -870,9 +870,9 @@ public abstract class MemoryFPlayer implements FPlayer {
 
         if (myFaction.isNormal()) {
             for (FPlayer fplayer : myFaction.getFPlayersWhereOnline(true))
-                FactionsPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(FactionsPlugin.instance, () -> fplayer.msg(TL.LEAVE_LEFT, this.describeTo(fplayer, true), myFaction.describeTo(fplayer)));
+                com.massivecraft.factions.util.FactionsScheduler.runAsync(() -> fplayer.msg(TL.LEAVE_LEFT, this.describeTo(fplayer, true), myFaction.describeTo(fplayer)));
             if (Conf.logFactionLeave)
-                FactionsPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(FactionsPlugin.instance, () -> Logger.print(TL.LEAVE_LEFT.format(this.getName(), myFaction.getTag()), Logger.PrefixType.DEFAULT));
+                com.massivecraft.factions.util.FactionsScheduler.runAsync(() -> Logger.print(TL.LEAVE_LEFT.format(this.getName(), myFaction.getTag()), Logger.PrefixType.DEFAULT));
         }
         myFaction.removeAnnouncements(this);
         if (this.isAlt()) {
@@ -903,7 +903,7 @@ public abstract class MemoryFPlayer implements FPlayer {
 
             Factions.getInstance().removeFaction(myFaction.getId());
             if (Conf.logFactionDisband)
-                FactionsPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(FactionsPlugin.instance,
+                com.massivecraft.factions.util.FactionsScheduler.runAsync(
                         () -> Logger.print(TL.LEAVE_DISBANDEDLOG.format(myFaction.getTag(), myFaction.getId(),
                                 this.getName()).replace("{claims}", myFaction.getAllClaims().size() + ""), Logger.PrefixType.DEFAULT));
         }
@@ -1176,12 +1176,7 @@ public abstract class MemoryFPlayer implements FPlayer {
             // Otherwise, start a timer and have this cancel after a few seconds.
             if (cooldown > 0) {
                 setTakeFallDamage(false);
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        setTakeFallDamage(true);
-                    }
-                }.runTaskLater(FactionsPlugin.getInstance(), 20L * cooldown);
+                com.massivecraft.factions.util.FactionsScheduler.runLater(() -> setTakeFallDamage(true), 20L * cooldown);
             }
         }
 
@@ -1379,7 +1374,7 @@ public abstract class MemoryFPlayer implements FPlayer {
     @Override
     public void clearWarmup() {
         if (warmup != null) {
-            Bukkit.getScheduler().cancelTask(warmupTask);
+            com.massivecraft.factions.util.FactionsScheduler.cancel(warmupTask);
             this.stopWarmup();
         }
     }
@@ -1400,7 +1395,7 @@ public abstract class MemoryFPlayer implements FPlayer {
     }
 
     @Override
-    public void addWarmup(WarmUpUtil.Warmup warmup, int taskId) {
+    public void addWarmup(WarmUpUtil.Warmup warmup, com.tcoded.folialib.wrapper.task.WrappedTask taskId) {
         if (this.warmup != null) this.clearWarmup();
         this.warmup = warmup;
         this.warmupTask = taskId;
@@ -1593,7 +1588,7 @@ public abstract class MemoryFPlayer implements FPlayer {
         Board.getInstance().setFactionAt(forFaction, flocation);
 
         if (Conf.logLandClaims) {
-            FactionsPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(FactionsPlugin.instance, () -> Logger.printArgs(TL.CLAIM_CLAIMEDLOG.toString(), Logger.PrefixType.DEFAULT, this.getName(), flocation.getCoordString(), forFaction.getTag()));
+            com.massivecraft.factions.util.FactionsScheduler.runAsync(() -> Logger.printArgs(TL.CLAIM_CLAIMEDLOG.toString(), Logger.PrefixType.DEFAULT, this.getName(), flocation.getCoordString(), forFaction.getTag()));
         }
 
         return true;

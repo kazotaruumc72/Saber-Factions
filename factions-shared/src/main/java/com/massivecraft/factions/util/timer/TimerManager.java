@@ -31,7 +31,7 @@ public class TimerManager implements Listener, Runnable {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         this.registerTimer(this.graceTimer = new GraceTimer());
-        plugin.getServer().getScheduler().runTaskTimer(plugin, this, 4, 4);
+        com.massivecraft.factions.util.FactionsScheduler.runTimer(this, 4, 4);
     }
 
     public static String getRemaining(long millis, boolean milliseconds) {

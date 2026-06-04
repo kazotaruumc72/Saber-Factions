@@ -32,6 +32,30 @@ public final class ReflectionUtils {
     private ReflectionUtils() {
     }
 
+    /**
+     * Resolves the running Minecraft version as the number the plugin compares against
+     * (e.g. {@code 21} for 1.21.x, {@code 26} for the 26.x scheme).
+     * <p>
+     * Uses {@link Bukkit#getBukkitVersion()} ("26.1.2-R0.1-SNAPSHOT" / "1.21.1-R0.1-SNAPSHOT")
+     * which is reliable on modern Paper, where the old versioned {@code org.bukkit.craftbukkit.vX_Y_RZ}
+     * package no longer exists. Falls back to the legacy package parsing if needed.
+     */
+    public static short getMinecraftVersion() {
+        try {
+            String bukkitVersion = Bukkit.getBukkitVersion(); // e.g. "26.1.2-R0.1-SNAPSHOT"
+            String[] parts = bukkitVersion.split("-")[0].split("\\.");
+            // Legacy "1.X(.Y)" scheme -> the meaningful number is X; new "26.1.2" scheme -> it is the major.
+            String token = parts[0].equals("1") && parts.length > 1 ? parts[1] : parts[0];
+            return Short.parseShort(token);
+        } catch (Exception ignored) {
+            try {
+                return Short.parseShort(PackageType.getServerVersion().split("_")[1]);
+            } catch (Exception alsoIgnored) {
+                return 0;
+            }
+        }
+    }
+
     public static String resolveInventoryTitleCompat(InventoryClickEvent event) {
         // Modern API (1.13+)
         try {

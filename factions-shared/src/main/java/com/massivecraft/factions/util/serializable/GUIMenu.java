@@ -85,7 +85,7 @@ public abstract class GUIMenu {
     }
 
     public ClickableItemStack getBackButton(Material data, String name, String... lore) {
-        return (new ClickableItemStack(new ItemStack(data != null ? data : Material.RED_STAINED_GLASS_PANE, 1, data != null ? (short) 0 : 0))).setDisplayName(name != null ? name : ChatColor.RED + ChatColor.BOLD.toString() + "Back").setLore(lore != null ? Lists.newArrayList(lore) : Lists.newArrayList(ChatColor.GRAY + "Click to return to previous menu.")).setClickCallback((e) -> {
+        return (new ClickableItemStack(new ItemStack(data != null ? data : Material.RED_STAINED_GLASS_PANE, 1, data != null ? (short) 0 : 0))).setDisplayName(name != null ? name : ChatColor.RED + ChatColor.BOLD.toString() + "Back").withLore(lore != null ? Lists.newArrayList(lore) : Lists.newArrayList(ChatColor.GRAY + "Click to return to previous menu.")).setClickCallback((e) -> {
             if (this.previousMenu != null) {
                 this.previousMenu.open((Player) e.getWhoClicked());
             }
@@ -102,7 +102,7 @@ public abstract class GUIMenu {
         GUIMenu openMenu = menus.get(player.getUniqueId());
         if (openMenu != null) {
             player.closeInventory();
-            Bukkit.getScheduler().scheduleSyncDelayedTask(FactionsPlugin.instance, () -> {
+            com.massivecraft.factions.util.FactionsScheduler.runLater(() -> {
                 this.drawItems();
                 player.openInventory(this.menu);
                 menus.put(player.getUniqueId(), this);

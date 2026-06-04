@@ -1,0 +1,46 @@
+# BaseClaimProtector — Nexo bridge for SaberFactions
+#
+# Bloc Nexo qui, posé en territoire de votre faction, claim un rayon de chunks
+# autour du bloc pour la faction. Pour rester actif, le bloc doit être nourri
+# en faisant clic-droit dessus avec un item Nexo défini dans `food`. Chaque
+# food consommée ajoute du temps de fuel (`time:Xh|Xm|Xs|Xd`). Quand le bloc
+# tombe à 0 fuel, les chunks générés sont unclaimés (configurable). Casser le
+# bloc unclaim immédiatement tout ce qu'il avait généré.
+#
+# Astuce: chaque clé sous `base_claim_protector` correspond à l'identifiant
+# d'item Nexo du protecteur (ce que renvoie `NexoItems.idFromItem(...)`).
+# Vous pouvez créer plusieurs paliers (ex: protector_basic, protector_advanced)
+# avec leur propre `level`, `chunk_radius` et `food`.
+
+enabled: true
+
+# Le bloc doit-il être posé sur un chunk déjà claim par la faction du joueur ?
+require-own-territory: true
+
+# Quand le fuel atteint 0:
+#   true  -> les chunks générés sont unclaimés (le bloc reste, on peut refeed pour reclaim)
+#   false -> le protecteur est désactivé sans unclaim (les chunks restent claimés tant qu'on
+#            ne casse pas le bloc)
+unclaim-on-fuel-empty: true
+
+# Période en secondes entre chaque tick de consommation de fuel.
+fuel-tick-seconds: 1
+
+base_claim_protector:
+  protector_basic:
+    level: 1
+    chunk_radius: 1
+    food:
+      - "item:nexo:basic_fuel, time:3h"
+  protector_advanced:
+    level: 3
+    chunk_radius: 3
+    food:
+      - "item:nexo:basic_fuel, time:3h"
+      - "item:nexo:premium_fuel, time:6h"
+  protector_elite:
+    level: 5
+    chunk_radius: 5
+    food:
+      - "item:nexo:premium_fuel, time:6h"
+      - "item:nexo:elite_fuel, time:12h"

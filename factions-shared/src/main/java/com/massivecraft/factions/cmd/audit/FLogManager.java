@@ -75,7 +75,7 @@ public class FLogManager {
     }
 
     private void scheduleLogMaintenance() {
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(FactionsPlugin.instance, () -> {
+        com.massivecraft.factions.util.FactionsScheduler.runTimer(() -> {
             if (saving) {
                 Bukkit.getLogger().info("Ignoring saveLogs scheduler due to saving == true!");
                 return;

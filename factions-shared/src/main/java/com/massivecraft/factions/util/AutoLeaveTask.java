@@ -18,7 +18,7 @@ public class AutoLeaveTask implements Runnable {
         }
 
         task = new AutoLeaveProcessTask();
-        task.runTaskTimer(FactionsPlugin.getInstance(), 1, 1);
+        task.start(1, 1);
 
         // maybe setting has been changed? if so, restart this task at new rate
         if (this.rate != Conf.autoLeaveRoutineRunsEveryXMinutes) {

@@ -61,8 +61,8 @@ public class StartupParameter {
 
             CoreX.init();
             if (Conf.useCheckSystem) {
-                FactionsPlugin.getInstance().getServer().getScheduler().runTaskTimerAsynchronously(plugin, CheckTask.getInstance(), 0L, 1200L);
-                FactionsPlugin.getInstance().getServer().getScheduler().runTaskTimer(plugin, CheckTask.getInstance()::cleanupTask, 0L, 1260L);
+                com.massivecraft.factions.util.FactionsScheduler.runTimerAsync(CheckTask.getInstance(), 0L, 1200L);
+                com.massivecraft.factions.util.FactionsScheduler.runTimer(CheckTask.getInstance()::cleanupTask, 0L, 1260L);
 
                 // FactionsPlugin.getInstance().getServer().getScheduler().runTaskTimerAsynchronously(plugin, WeeWooTask::new, 600L, 600L);
             }

@@ -61,7 +61,10 @@ public class CmdAllyFWarp extends FCommand {
         }
 
         if (context.args.size() == 1) {
-            new FactionWarpsFrame(context.player, targetFaction).openGUI(FactionsPlugin.getInstance());
+            com.massivecraft.factions.integration.zmenu.ZMenuHook zMenuHook = FactionsPlugin.getInstance().getZMenuHook();
+            if (zMenuHook == null || !zMenuHook.openFactionWarps(context.player, targetFaction)) {
+                new FactionWarpsFrame(context.player, targetFaction).openGUI(FactionsPlugin.getInstance());
+            }
         } else if (context.args.size() > 3) {
             context.fPlayer.msg(TL.COMMAND_ALLYFWARP_USAGE);
         } else {

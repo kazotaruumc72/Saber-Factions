@@ -1,13 +1,14 @@
 package com.massivecraft.factions.cmd.tnt;
 
 import com.massivecraft.factions.cmd.tnt.tntprovider.TNTProvider;
+import com.massivecraft.factions.util.FactionsScheduler;
 import com.massivecraft.factions.zcore.util.TL;
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -16,7 +17,7 @@ import java.util.Queue;
 /**
  * @author Saser
  */
-public class TNTFillTask extends BukkitRunnable {
+public class TNTFillTask implements Runnable {
 
     private static final int FILLS_PER_ITERATION = 2000;
 
@@ -27,6 +28,7 @@ public class TNTFillTask extends BukkitRunnable {
     private final int initialSize;
 
     private boolean isRunning = true;
+    private WrappedTask wrappedTask;
 
     public TNTFillTask(CmdTntFill cmdTntFill, TNTProvider tntProvider, Collection<Block> dispensers, int count) {
         this.cmdTntFill = cmdTntFill;
@@ -36,13 +38,16 @@ public class TNTFillTask extends BukkitRunnable {
         this.initialSize = dispensers.size();
     }
 
+    public void start(long delay, long period) {
+        this.wrappedTask = FactionsScheduler.runTimer(this, delay, period);
+    }
+
     public boolean isCancelled() {
         return !isRunning;
     }
 
-    @Override
-    public synchronized void cancel() throws IllegalStateException {
-        super.cancel();
+    public synchronized void cancel() {
+        FactionsScheduler.cancel(this.wrappedTask);
         this.isRunning = false;
     }
 

@@ -2,17 +2,18 @@ package com.massivecraft.factions.util;
 
 import com.massivecraft.factions.*;
 import com.massivecraft.factions.struct.Role;
-import org.bukkit.scheduler.BukkitRunnable;
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-public class AutoLeaveProcessTask extends BukkitRunnable {
+public class AutoLeaveProcessTask implements Runnable {
 
     private transient boolean readyToGo;
     private transient boolean finished;
     private transient ListIterator<FPlayer> iterator;
     private transient double toleranceMillis;
+    private transient WrappedTask wrappedTask;
 
     public AutoLeaveProcessTask() {
         ArrayList<FPlayer> fplayers = (ArrayList<FPlayer>) FPlayers.getInstance().getAllFPlayers();
@@ -49,12 +50,12 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
 
             // Check if they should be exempt from this.
             if (!fplayer.willAutoLeave()) {
-                FactionsPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(FactionsPlugin.instance, () -> Logger.print(fplayer.getName() + " was going to be auto-removed but was set not to.", Logger.PrefixType.DEFAULT));
+                FactionsScheduler.runAsync(() -> Logger.print(fplayer.getName() + " was going to be auto-removed but was set not to.", Logger.PrefixType.DEFAULT));
                 continue;
             }
             if (fplayer.hasFaction() && fplayer.isOffline() && now - fplayer.getLastLoginTime() > toleranceMillis) {
                 if (Conf.logFactionLeave || Conf.logFactionKick) {
-                    FactionsPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(FactionsPlugin.instance, () -> Logger.print("Player " + fplayer.getName() + " was auto-removed due to inactivity.", Logger.PrefixType.DEFAULT));
+                    FactionsScheduler.runAsync(() -> Logger.print("Player " + fplayer.getName() + " was auto-removed due to inactivity.", Logger.PrefixType.DEFAULT));
                 }
 
                 // if player is faction admin, sort out the faction since he's going away
@@ -77,12 +78,16 @@ public class AutoLeaveProcessTask extends BukkitRunnable {
         this.stop();
     }
 
+    public void start(long delay, long period) {
+        this.wrappedTask = FactionsScheduler.runTimer(this, delay, period);
+    }
+
     // we're done, shut down
     public void stop() {
         readyToGo = false;
         finished = true;
 
-        this.cancel();
+        FactionsScheduler.cancel(this.wrappedTask);
     }
 
     public boolean isFinished() {

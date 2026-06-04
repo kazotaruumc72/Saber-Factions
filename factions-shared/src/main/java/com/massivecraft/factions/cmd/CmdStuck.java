@@ -54,7 +54,7 @@ public class CmdStuck extends FCommand {
                 return;
             }
 
-            final int id = Bukkit.getScheduler().runTaskLater(FactionsPlugin.getInstance(), new Runnable() {
+            final com.tcoded.folialib.wrapper.task.WrappedTask id = com.massivecraft.factions.util.FactionsScheduler.runLater(new Runnable() {
 
                 @Override
                 public void run() {
@@ -95,7 +95,7 @@ public class CmdStuck extends FCommand {
                         }
                     };
                 }
-            }, delay * 20).getTaskId();
+            }, delay * 20);
 
             FactionsPlugin.getInstance().getTimers().put(player.getUniqueId(), System.currentTimeMillis() + (delay * 1000));
             long wait = FactionsPlugin.getInstance().getTimers().get(player.getUniqueId()) - System.currentTimeMillis();

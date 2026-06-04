@@ -15,7 +15,7 @@ public class AutoRespawn implements Listener {
     @EventHandler
     private void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
-        Bukkit.getScheduler().runTaskLater(FactionsPlugin.getInstance(), () -> {
+        com.massivecraft.factions.util.FactionsScheduler.runLater(() -> {
             if (player.isOnline()) {
                 player.spigot().respawn();
             }

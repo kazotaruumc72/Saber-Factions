@@ -22,7 +22,7 @@ public class AntiRedstoneOnTrapdoorCrash implements Listener {
 
     public AntiRedstoneOnTrapdoorCrash() {
         FactionsPlugin plugin = FactionsPlugin.getInstance();
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+        com.massivecraft.factions.util.FactionsScheduler.runTimerAsync(() -> {
             cooldowns.clear();
             trapdoorPoweredByRedstoneCounts.clear();
         }, 6000L, 6000L);

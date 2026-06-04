@@ -102,7 +102,7 @@ public class FactionWarpsFrame extends SaberGUI {
                 } else {
                     fplayer.setEnteringPassword(true, warp.getKey());
                     fplayer.msg(TL.COMMAND_FWARP_PASSWORD_REQUIRED);
-                    Bukkit.getScheduler().runTaskLater(FactionsPlugin.getInstance(), () -> {
+                    com.massivecraft.factions.util.FactionsScheduler.runLater(() -> {
                         if (fplayer.isEnteringPassword()) {
                             fplayer.msg(TL.COMMAND_FWARP_PASSWORD_TIMEOUT);
                             fplayer.setEnteringPassword(false, "");

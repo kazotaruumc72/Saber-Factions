@@ -1,10 +1,11 @@
 package com.massivecraft.factions.util.spiral;
 
 import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.FactionsPlugin;
+import com.massivecraft.factions.util.FactionsScheduler;
 import com.massivecraft.factions.util.Logger;
 import com.massivecraft.factions.util.spiral.coord.ChunkCoord;
 import com.massivecraft.factions.util.spiral.generator.SpiralGenerator;
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import org.bukkit.Bukkit;
 
 import java.util.Queue;
@@ -17,7 +18,7 @@ public abstract class SpiralTask implements Runnable {
     private final AdaptiveBatchExecutor batchExecutor = new AdaptiveBatchExecutor();
 
     private boolean active = false;
-    private int taskId = -1;
+    private WrappedTask wrappedTask;
 
     public SpiralTask(FLocation center, int radius, SpiralGenerator generator) {
         this.worldName = center.getWorldName();
@@ -37,7 +38,7 @@ public abstract class SpiralTask implements Runnable {
         }
 
         this.active = true;
-        this.taskId = Bukkit.getScheduler().runTaskTimer(FactionsPlugin.getInstance(), this, 1, 1).getTaskId();
+        this.wrappedTask = FactionsScheduler.runTimer(this, 1, 1);
         Logger.print("[SpiralTask] Started with " + progressTracker.getTotalChunks() + " chunks.", Logger.PrefixType.DEFAULT);
     }
 
@@ -90,9 +91,9 @@ public abstract class SpiralTask implements Runnable {
     public void stop() {
         if (!active) return;
         active = false;
-        if (taskId != -1) {
-            Bukkit.getScheduler().cancelTask(taskId);
-            taskId = -1;
+        if (wrappedTask != null) {
+            FactionsScheduler.cancel(wrappedTask);
+            wrappedTask = null;
         }
         if (spiralQueue != null) spiralQueue.clear();
     }

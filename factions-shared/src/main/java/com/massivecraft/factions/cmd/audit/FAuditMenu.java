@@ -89,7 +89,7 @@ public class FAuditMenu extends GUIMenu {
                     player.sendMessage(CC.Red + "No extra logs to load.");
                     return;
                 }
-                Bukkit.getScheduler().scheduleSyncDelayedTask(FactionsPlugin.instance,
+                com.massivecraft.factions.util.FactionsScheduler.run(
                         () -> new FAuditLogMenu(player, faction, type).open(player));
             }
         });
@@ -146,7 +146,7 @@ public class FAuditMenu extends GUIMenu {
             }
             setItem(getSize() - 1, (new ClickableItemStack((new ItemBuilder(Material.ARROW)).name(CC.Green + "Previous Page").lore("", CC.Gray + "Click to view previous page!").build())).setClickCallback((event) -> {
                 event.setCancelled(true);
-                Bukkit.getScheduler().scheduleSyncDelayedTask(FactionsPlugin.instance, () -> (new FAuditMenu(player, faction)).open(player));
+                com.massivecraft.factions.util.FactionsScheduler.run(() -> (new FAuditMenu(player, faction)).open(player));
             }));
         }
     }

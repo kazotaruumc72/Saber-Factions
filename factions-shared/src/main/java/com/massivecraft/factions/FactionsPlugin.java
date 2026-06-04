@@ -53,6 +53,8 @@ import org.saberdev.nexoclaim.NexoClaimProtectorListener;
 import org.saberdev.nexoclaim.NexoClaimProtectorManager;
 import org.saberdev.outpost.OutpostListener;
 import org.saberdev.outpost.OutpostManager;
+import org.saberdev.mdf.MdfManager;
+import org.saberdev.mdf.MdfListener;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
@@ -68,6 +70,8 @@ import java.util.stream.Collectors;
 public class FactionsPlugin extends MPlugin {
 
     public static FactionsPlugin instance;
+    private com.tcoded.folialib.FoliaLib foliaLib;
+    private com.massivecraft.factions.integration.zmenu.ZMenuHook zMenuHook;
     private final Gson gsonSerializer = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().enableComplexMapKeySerialization().excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE)
             .registerTypeAdapter(new TypeToken<Map<Permissable, Map<String, Access>>>() {
             }.getType(), new PermissionsMapTypeAdapter())
@@ -105,10 +109,11 @@ public class FactionsPlugin extends MPlugin {
     public TimerManager timerManager;
     private FactionsPlayerListener factionsPlayerListener;
     private boolean locked = false;
-    private Integer AutoLeaveTask = null;
+    private com.tcoded.folialib.wrapper.task.WrappedTask AutoLeaveTask = null;
     private ClipPlaceholderAPIManager clipPlaceholderAPIManager;
     private CompatibilityModule compatibilityModule;
     private OutpostManager outpostManager;
+    private MdfManager mdfManager;
     private NexoClaimProtectorManager nexoClaimProtectorManager;
 
     public FactionsPlugin() {
@@ -117,6 +122,14 @@ public class FactionsPlugin extends MPlugin {
 
     public static FactionsPlugin getInstance() {
         return instance;
+    }
+
+    public com.tcoded.folialib.FoliaLib getFoliaLib() {
+        return foliaLib;
+    }
+
+    public com.tcoded.folialib.impl.PlatformScheduler getFoliaScheduler() {
+        return foliaLib.getScheduler();
     }
 
     public static boolean canPlayersJoin() {
@@ -135,6 +148,10 @@ public class FactionsPlugin extends MPlugin {
         return compatibilityModule;
     }
 
+    public com.massivecraft.factions.integration.zmenu.ZMenuHook getZMenuHook() {
+        return zMenuHook;
+    }
+
     public boolean usesBrigadierCompletions() {
         return compatibilityModule != null && compatibilityModule.supportsBrigadier();
     }
@@ -146,6 +163,9 @@ public class FactionsPlugin extends MPlugin {
 
     @Override
     public void onEnable() {
+        // Initialise the Folia compatibility layer before anything schedules a task.
+        this.foliaLib = new com.tcoded.folialib.FoliaLib(this);
+
         if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
             Logger.print("You are missing dependencies!", Logger.PrefixType.FAILED);
             Logger.print("Please verify [Vault] is installed!", Logger.PrefixType.FAILED);
@@ -154,7 +174,7 @@ public class FactionsPlugin extends MPlugin {
             return;
         }
 
-        this.version = Short.parseShort(ReflectionUtils.PackageType.getServerVersion().split("_")[1]);
+        this.version = ReflectionUtils.getMinecraftVersion();
 
         if (!preEnable()) {
             this.loadSuccessful = false;
@@ -166,7 +186,7 @@ public class FactionsPlugin extends MPlugin {
 
         StartupParameter.initData(this, () -> {
             if (getConfig().getBoolean("enable-faction-flight", true)) {
-                Bukkit.getServer().getScheduler().runTaskTimer(FactionsPlugin.getInstance(), new FlightEnhance(), 30L, 30L);
+                FactionsScheduler.runTimer(new FlightEnhance(), 30L, 30L);
             }
 
             VersionProtocol.printVersionInfo();
@@ -178,10 +198,16 @@ public class FactionsPlugin extends MPlugin {
             setupPermissions();
 
             if (Conf.worldGuardChecking || Conf.worldGuardBuildPriority) {
-                Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
-                if (plugin != null) {
-                    new WorldGuardBridge().connect(this, true);
-                }
+                // WorldGuard is no longer a softdepend: it hard-depends on WorldEdit, which
+                // (via Orestack loadbefore + Nexo loadafter Factions) formed a circular load
+                // order that crashed Paper's modern plugin loader. Without the softdepend,
+                // WorldGuard may not be enabled yet when Factions enables, so defer the bridge
+                // connect to the next tick, by which point every plugin has finished enabling.
+                FactionsScheduler.run(() -> {
+                    if (Bukkit.getPluginManager().getPlugin("WorldGuard") != null) {
+                        new WorldGuardBridge().connect(this, true);
+                    }
+                });
             }
 
             // start up task which runs the autoLeaveAfterDaysOfInactivity routine
@@ -200,13 +226,16 @@ public class FactionsPlugin extends MPlugin {
             this.outpostManager = new OutpostManager(this.getDataFolder());
             Bukkit.getPluginManager().registerEvents(new OutpostListener(this.outpostManager), this);
 
+            this.mdfManager = new MdfManager(this.getDataFolder());
+            Bukkit.getPluginManager().registerEvents(new MdfListener(this.mdfManager), this);
+
             this.nexoClaimProtectorManager = new NexoClaimProtectorManager(this);
             if (this.nexoClaimProtectorManager.isEnabled()) {
                 Bukkit.getPluginManager().registerEvents(
                         new NexoClaimProtectorListener(this.nexoClaimProtectorManager), this);
                 this.nexoClaimProtectorManager.startTicking();
             }
-            Bukkit.getScheduler().runTaskLater(this, () -> {
+            FactionsScheduler.runLater(() -> {
                 for (Faction faction : Factions.getInstance().getAllNormalFactions()) {
                     this.factionDataHelper.getOrLoadFactionData(faction);
                 }
@@ -237,13 +266,16 @@ public class FactionsPlugin extends MPlugin {
             factionsAddonHashMap = new HashMap<>();
             AddonManager.getAddonManagerInstance().loadAddons();
 
-            Bukkit.getScheduler().runTaskLater(this, () -> {
+            FactionsScheduler.runLater(() -> {
                 //To Add Addon Commands Into "Tab Completion Format"
                 if (!factionsAddonHashMap.isEmpty()) {
                     FCmdRoot.instance.addVariableCommands();
                     FCmdRoot.instance.rebuild();
                 }
             }, 100);
+
+            // Optional zMenu integration for inventory menus (no-op if zMenu is absent).
+            this.zMenuHook = com.massivecraft.factions.integration.zmenu.ZMenuHook.init(this);
 
             this.getCommand(refCommand).setExecutor(cmdBase);
             if (!usesBrigadierCompletions()) this.getCommand(refCommand).setTabCompleter(this);
@@ -252,6 +284,12 @@ public class FactionsPlugin extends MPlugin {
                 CmdFAdmin fAdminCommand = new CmdFAdmin();
                 this.getCommand("fadmin").setExecutor(fAdminCommand);
                 this.getCommand("fadmin").setTabCompleter(fAdminCommand);
+            }
+
+            if (this.getCommand("fmdf") != null) {
+                com.massivecraft.factions.cmd.CmdMdfRoot mdfCommand = new com.massivecraft.factions.cmd.CmdMdfRoot();
+                this.getCommand("fmdf").setExecutor(mdfCommand);
+                this.getCommand("fmdf").setTabCompleter(mdfCommand);
             }
 
 
@@ -294,6 +332,10 @@ public class FactionsPlugin extends MPlugin {
         return this.outpostManager;
     }
 
+    public MdfManager getMdfManager() {
+        return this.mdfManager;
+    }
+
     public NexoClaimProtectorManager getNexoClaimProtectorManager() {
         return this.nexoClaimProtectorManager;
     }
@@ -318,7 +360,7 @@ public class FactionsPlugin extends MPlugin {
         ShutdownParameter.initShutdown(this);
 
         if (this.AutoLeaveTask != null) {
-            getServer().getScheduler().cancelTask(this.AutoLeaveTask);
+            FactionsScheduler.cancel(this.AutoLeaveTask);
             this.AutoLeaveTask = null;
         }
         if (TextUtil.AUDIENCES != null) {
@@ -340,13 +382,13 @@ public class FactionsPlugin extends MPlugin {
     public void startAutoLeaveTask(boolean restartIfRunning) {
         if (AutoLeaveTask != null) {
             if (!restartIfRunning) return;
-            this.getServer().getScheduler().cancelTask(AutoLeaveTask);
+            FactionsScheduler.cancel(AutoLeaveTask);
         }
 
         if (Conf.useAutoLeaveAndDisbandSystem) {
             if (Conf.autoLeaveRoutineRunsEveryXMinutes > 0.0) {
                 long ticks = (long) (20 * 60 * Conf.autoLeaveRoutineRunsEveryXMinutes);
-                AutoLeaveTask = getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoLeaveTask(), ticks, ticks);
+                AutoLeaveTask = FactionsScheduler.runTimer(new AutoLeaveTask(), ticks, ticks);
             }
         }
     }

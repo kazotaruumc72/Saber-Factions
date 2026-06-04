@@ -85,7 +85,7 @@ public class CmdShow extends FCommand {
         List<Component> fancy = new ArrayList<>(16);
         List<String> finalShow = show;
         Faction finalFaction = faction;
-        Bukkit.getScheduler().runTaskAsynchronously(FactionsPlugin.getInstance(), () -> {
+        com.massivecraft.factions.util.FactionsScheduler.runAsync(() -> {
             for (String raw : finalShow) {
                 String parsed = FactionsPlugin.getInstance().getConfig().getBoolean("relational-show", true) ? TagUtil.parsePlain(finalFaction, context.fPlayer, raw) : TagUtil.parsePlain(finalFaction, raw); // use relations
                 if (parsed == null) {
@@ -116,7 +116,7 @@ public class CmdShow extends FCommand {
                     fancy.add(localFancy);
                 }
             }
-            Bukkit.getScheduler().runTask(FactionsPlugin.getInstance(), () -> context.sendComponent(fancy));
+            com.massivecraft.factions.util.FactionsScheduler.run(() -> context.sendComponent(fancy));
         });
     }
 

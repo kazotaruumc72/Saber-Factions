@@ -25,7 +25,7 @@ public class CmdSeeChunk extends FCommand {
     //private boolean useParticles;
     //private final ParticleEffect effect = ParticleEffect.REDSTONE;
 
-    private int taskID = -1;
+    private com.tcoded.folialib.wrapper.task.WrappedTask taskID = null;
 
 
     //I remade it cause of people getting mad that I had the same seechunk as drtshock
@@ -66,10 +66,10 @@ public class CmdSeeChunk extends FCommand {
     }
 
     private void manageTask() {
-        if (taskID != -1) {
+        if (taskID != null) {
             if (seeChunkMap.isEmpty()) {
-                Bukkit.getScheduler().cancelTask(taskID);
-                taskID = -1;
+                com.massivecraft.factions.util.FactionsScheduler.cancel(taskID);
+                taskID = null;
             }
         } else {
             startTask();
@@ -77,7 +77,7 @@ public class CmdSeeChunk extends FCommand {
     }
 
     private void startTask() {
-        taskID = Bukkit.getScheduler().runTaskTimer(FactionsPlugin.getInstance(), () -> {
+        taskID = com.massivecraft.factions.util.FactionsScheduler.runTimer(() -> {
             Iterator<Map.Entry<String, Boolean>> iterator = seeChunkMap.entrySet().iterator();
 
             while (iterator.hasNext()) {
@@ -91,7 +91,7 @@ public class CmdSeeChunk extends FCommand {
                 showBorders(player);
             }
             manageTask();
-        }, 0, interval).getTaskId();
+        }, 0, interval);
     }
 
     private void showBorders(Player me) {

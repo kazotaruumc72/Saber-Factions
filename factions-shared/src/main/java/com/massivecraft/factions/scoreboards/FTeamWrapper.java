@@ -42,7 +42,7 @@ public class FTeamWrapper {
             return;
 
         if (updating.add(faction)) {
-            Bukkit.getScheduler().runTask(FactionsPlugin.getInstance(), () -> {
+            com.massivecraft.factions.util.FactionsScheduler.run(() -> {
                 updating.remove(faction);
                 applyUpdates(faction);
             });

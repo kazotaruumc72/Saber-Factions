@@ -34,7 +34,7 @@ public class CmdTag extends FCommand {
     @Override
     public void perform(CommandContext context) {
 
-        FactionsPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(FactionsPlugin.instance, () -> {
+        com.massivecraft.factions.util.FactionsScheduler.runAsync(() -> {
 
 
             String tag = context.argAsString(0);
@@ -61,7 +61,7 @@ public class CmdTag extends FCommand {
                 return;
             }
 
-            Bukkit.getScheduler().scheduleSyncDelayedTask(FactionsPlugin.getInstance(), () -> {
+            com.massivecraft.factions.util.FactionsScheduler.run(() -> {
                 // trigger the faction rename event (cancellable)
                 FactionRenameEvent renameEvent = new FactionRenameEvent(context.fPlayer, tag);
                 Bukkit.getServer().getPluginManager().callEvent(renameEvent);

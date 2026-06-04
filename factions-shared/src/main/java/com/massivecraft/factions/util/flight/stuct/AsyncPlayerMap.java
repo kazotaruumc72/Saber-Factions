@@ -31,7 +31,7 @@ public class AsyncPlayerMap implements Runnable, Listener {
 
     public AsyncPlayerMap(Plugin bukkitPlugin) {
         Bukkit.getPluginManager().registerEvents(this, bukkitPlugin);
-        Bukkit.getScheduler().runTaskTimer(bukkitPlugin, this, 20L, 20L);
+        com.massivecraft.factions.util.FactionsScheduler.runTimer(this, 20L, 20L);
     }
 
     @Override

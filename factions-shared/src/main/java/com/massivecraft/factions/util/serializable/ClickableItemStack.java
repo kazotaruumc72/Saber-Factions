@@ -31,7 +31,7 @@ public class ClickableItemStack extends ItemStack {
     }
 
 
-    public ClickableItemStack setLore(List<String> lore) {
+    public ClickableItemStack withLore(List<String> lore) {
         ItemMeta im = this.getItemMeta();
         im.setLore(lore);
         this.setItemMeta(im);

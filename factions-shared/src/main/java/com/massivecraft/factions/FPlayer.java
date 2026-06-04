@@ -445,7 +445,7 @@ public interface FPlayer extends EconomyParticipator {
 
     WarmUpUtil.Warmup getWarmupType();
 
-    void addWarmup(WarmUpUtil.Warmup warmup, int taskId);
+    void addWarmup(WarmUpUtil.Warmup warmup, com.tcoded.folialib.wrapper.task.WrappedTask taskId);
 
     void stopWarmup();
 

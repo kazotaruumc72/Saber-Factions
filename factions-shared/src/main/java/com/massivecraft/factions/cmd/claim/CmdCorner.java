@@ -61,7 +61,7 @@ public class CmdCorner extends FCommand {
                 if (surrounding.isEmpty()) {
                     context.msg(TL.COMMAND_CORNER_CANT_CLAIM);
                 } else {
-                    new CornerTask(context.fPlayer, surrounding).runTaskTimer(FactionsPlugin.getInstance(), 1L, 1L);
+                    new CornerTask(context.fPlayer, surrounding).start(1L, 1L);
                 }
             }
         } else {

@@ -3,7 +3,7 @@ package com.massivecraft.factions.util;
 public class VersionProtocol {
 
     public static void printVersionInfo() {
-        short version = Short.parseShort(ReflectionUtils.PackageType.getServerVersion().split("_")[1]);
+        short version = ReflectionUtils.getMinecraftVersion();
         switch (version) {
             case 7:
                 Logger.print("Minecraft Version 1.7 found, disabling banners, itemflags inside GUIs, corners, and Titles.", Logger.PrefixType.DEFAULT);
@@ -34,7 +34,9 @@ public class VersionProtocol {
                 break;
             default:
                 if (version >= 20) {
-                    Logger.print("Minecraft Version 1." + version + " found.", Logger.PrefixType.DEFAULT);
+                    // Legacy "1.X" servers report their minor (20, 21, ...); newer schemes (26.x) report the major.
+                    String label = version < 26 ? "1." + version : Short.toString(version) + ".x";
+                    Logger.print("Minecraft Version " + label + " found.", Logger.PrefixType.DEFAULT);
                 }
                 break;
         }

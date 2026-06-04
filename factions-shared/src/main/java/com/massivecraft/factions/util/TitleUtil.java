@@ -21,7 +21,7 @@ public class TitleUtil {
             String title = parseAllPlaceholders(TextUtil.replace(config.getString("Title.Format.Title"), "{Faction}", faction.getColorTo(me) + faction.getTag()), faction, me.getPlayer());
             String subTitle = parseAllPlaceholders(TextUtil.replace(config.getString("Title.Format.Subtitle"), "{Description}", faction.getDescription()).replace("{Faction}", faction.getColorTo(me) + faction.getTag()), faction, me.getPlayer());
 
-            Bukkit.getScheduler().runTaskLater(FactionsPlugin.getInstance(), () -> {
+            FactionsScheduler.runLater(() -> {
 
                 if (version != 8) {
                     Titles.sendTitle(me.getPlayer(), config.getInt("Title.Options.FadeInTime"), config.getInt("Title.Options.ShowTime"), config.getInt("Title.Options.FadeOutTime"), TextUtil.parse(title), TextUtil.parse(subTitle));

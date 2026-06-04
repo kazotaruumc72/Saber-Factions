@@ -17,6 +17,8 @@ public enum Permission {
     ALTS("alts"),
     ADMIN_ANY("admin.any"),
     OUTPOST_ADMIN("admin.ap"),
+    MDF_ADMIN("admin.mdf"),
+    MDF_MEMBER("mdf"),
     AHOME("ahome"),
     ANNOUNCE("announce"),
     AUDIT("audit"),

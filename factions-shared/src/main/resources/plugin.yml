@@ -1,18 +1,33 @@
 name: Factions
 prefix: SaberFactions
 version: ${project.version}
-api-version: 1.13
+api-version: "26.1"
 main: com.massivecraft.factions.FactionsPlugin
+folia-supported: true
 authors: [Olof Larsson, Brett Flannigan, drtshock, ProSavage, DroppingAnvil, Driftay, SaberDev, Callum, Atilt]
 depend: [Vault]
-softdepend: [Citizens, CoreProtect, PlayerVaults, PlaceholderAPI, PermissionsEx, Permissions, Essentials, EssentialsChat, HeroChat, iChat, LocalAreaChat, LWC, nChat, ChatManager, CAPI, AuthMe, Vault, Spout, WorldEdit, WorldGuard, AuthDB, CaptureThePoints, CombatTag, dynmap, WildStacker, Multiverse-Core, MultiWorld, Impact, Nexo]
+softdepend: [Citizens, CoreProtect, PlayerVaults, PlaceholderAPI, PermissionsEx, Permissions, Essentials, EssentialsChat, HeroChat, iChat, LocalAreaChat, LWC, nChat, ChatManager, CAPI, AuthMe, Vault, Spout, AuthDB, CaptureThePoints, CombatTag, dynmap, WildStacker, Multiverse-Core, MultiWorld, Impact, zMenu]
 commands:
   factions:
     description: Reference command for Factions.
     aliases: [f]
   fadmin:
-    description: Faction admin power management commands.
-    usage: /fadmin power <give|remove> <player> [amount]
+    description: Faction admin management commands.
+    usage: |
+      /fadmin power <give|remove> <player> [amount]
+      /fadmin disband <faction|all>
+  fmdf:
+    description: Manage MDF (Maison De Faction) zones.
+    aliases: [mdf]
+    usage: |
+      /fmdf wand
+      /fmdf save <name>
+      /fmdf delete <zone>
+      /fmdf select <zone> <faction>
+      /fmdf add <member>
+      /fmdf remove <member>
+      /fmdf reset <faction>
+      /fmdf hardreset all
 permissions:
   factions.fadmin:
     description: Use the /fadmin power management commands.
@@ -398,3 +413,9 @@ permissions:
     description: Set/view your own faction's paypal.
   factions.showclaims:
     description: View all you faction claims.
+  factions.admin.mdf:
+    description: Manage MDF (Maison De Faction) zones.
+    default: op
+  factions.mdf:
+    description: Manage your faction MDF whitelist.
+    default: true

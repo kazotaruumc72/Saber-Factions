@@ -19,9 +19,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.release>25</maven.compiler.release>
         <maven.build.timestamp.format>yyyy-MM-dd--HH-mm</maven.build.timestamp.format>
+        <paper.api.version>26.1.2.build.66-stable</paper.api.version>
         <spigot.api.version>1.21.11-R0.1-SNAPSHOT</spigot.api.version>
         <legacy.spigot.api.version>1.8.8-R0.1-SNAPSHOT</legacy.spigot.api.version>
     </properties>
@@ -107,6 +107,10 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>groupez</id>
+            <url>https://repo.groupez.dev/releases</url>
         </repository>
     </repositories>
 

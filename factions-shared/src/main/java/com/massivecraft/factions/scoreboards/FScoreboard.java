@@ -107,19 +107,17 @@ public class FScoreboard {
             updateObjective();
         }
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (removed || provider != defaultProvider) {
-                    cancel();
-                    return;
-                }
-
-                if (temporaryProvider == null) {
-                    updateObjective();
-                }
+        final com.tcoded.folialib.wrapper.task.WrappedTask[] holder = new com.tcoded.folialib.wrapper.task.WrappedTask[1];
+        holder[0] = com.massivecraft.factions.util.FactionsScheduler.runTimer(() -> {
+            if (removed || provider != defaultProvider) {
+                com.massivecraft.factions.util.FactionsScheduler.cancel(holder[0]);
+                return;
             }
-        }.runTaskTimer(FactionsPlugin.getInstance(), 20, 20);
+
+            if (temporaryProvider == null) {
+                updateObjective();
+            }
+        }, 20, 20);
     }
 
     public void setTemporarySidebar(final FSidebarProvider provider) {
@@ -130,19 +128,16 @@ public class FScoreboard {
         temporaryProvider = provider;
         updateObjective();
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (removed) {
-                    return;
-                }
-
-                if (temporaryProvider == provider) {
-                    temporaryProvider = null;
-                    updateObjective();
-                }
+        com.massivecraft.factions.util.FactionsScheduler.runLater(() -> {
+            if (removed) {
+                return;
             }
-        }.runTaskLater(FactionsPlugin.getInstance(), FactionsPlugin.getInstance().getConfig().getInt("scoreboard.expiration", 7) * 20L);
+
+            if (temporaryProvider == provider) {
+                temporaryProvider = null;
+                updateObjective();
+            }
+        }, FactionsPlugin.getInstance().getConfig().getInt("scoreboard.expiration", 7) * 20L);
     }
 
     private void updateObjective() {

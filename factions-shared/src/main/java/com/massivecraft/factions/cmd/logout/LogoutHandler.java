@@ -38,7 +38,7 @@ public class LogoutHandler {
     public void applyLogoutCooldown(Player player) {
         logoutCooldown.put(player.getUniqueId(), System.currentTimeMillis() + (30 * 1000));
 
-        Bukkit.getScheduler().runTaskLater(FactionsPlugin.getInstance(), () -> {
+        com.massivecraft.factions.util.FactionsScheduler.runLater(() -> {
             if (isLogoutActive(player)) {
                 player.setMetadata("Logout", new FixedMetadataValue(FactionsPlugin.getInstance(), true));
                 player.kickPlayer(String.valueOf(TL.COMMAND_LOGOUT_KICK_MESSAGE));

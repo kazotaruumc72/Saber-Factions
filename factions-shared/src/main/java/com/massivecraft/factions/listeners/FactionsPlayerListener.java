@@ -392,7 +392,7 @@ public class FactionsPlayerListener implements Listener {
 
         me.login(); // set kills / deaths
 
-        Bukkit.getScheduler().runTaskLater(FactionsPlugin.instance, () -> {
+        com.massivecraft.factions.util.FactionsScheduler.runLater(() -> {
             if (me.isOnline()) me.getFaction().sendUnreadAnnouncements(me);
         }, 33L);
 
@@ -443,7 +443,7 @@ public class FactionsPlayerListener implements Listener {
         CmdSeeChunk.seeChunkMap.remove(me.getPlayer().getName());
 
         // if player is waiting for fstuck teleport but leaves, remove
-        Integer stuck = FactionsPlugin.getInstance().getStuckMap().remove(player.getUniqueId());
+        com.tcoded.folialib.wrapper.task.WrappedTask stuck = FactionsPlugin.getInstance().getStuckMap().remove(player.getUniqueId());
 
         if (stuck != null) {
             FPlayers.getInstance().getByPlayer(player).msg(TL.COMMAND_STUCK_CANCELLED);

@@ -33,7 +33,7 @@ public class AntiTntEnemyClaim implements Listener {
 
     public AntiTntEnemyClaim() {
         if (!CoreX.handleFeatureRegistry("Anti-TNT-Enemy-Claim")) return;
-        Bukkit.getScheduler().runTaskTimer(FactionsPlugin.getInstance(), this::scan, 5L, 5L);
+        com.massivecraft.factions.util.FactionsScheduler.runTimer(this::scan, 5L, 5L);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

@@ -32,7 +32,7 @@ public class CmdDeinvite extends FCommand {
 
     @Override
     public void perform(CommandContext context) {
-        FactionsPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(FactionsPlugin.instance, () -> {
+        com.massivecraft.factions.util.FactionsScheduler.runAsync(() -> {
 
 
             FPlayer you = context.argAsBestFPlayerMatch(0);

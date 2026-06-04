@@ -142,7 +142,7 @@ public class CmdTntFill extends FCommand {
 
     public void fillDispensers(Player player, TNTProvider tntProvider, Collection<Dispenser> dispensers, int amount) {
         TNTFillTask tntFillTask = new TNTFillTask(this, tntProvider, dispensers.stream().map(BlockState::getBlock).collect(Collectors.toList()), amount);
-        tntFillTask.runTaskTimer(FactionsPlugin.getInstance(), 0, 1);
+        tntFillTask.start(0, 1);
         fillTaskMap.put(player, tntFillTask);
     }
 

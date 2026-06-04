@@ -1,0 +1,23 @@
+####################################################
+#
+# Faction Warps menu (zMenu)
+#
+# This inventory is rendered by Factions' custom "factions_warps" button:
+# it fills the background with the dummy item and places one clickable item
+# per warp at the slots defined in config.yml -> fwarp-gui.warp-slots.
+#
+# The item/slot below are placeholders required by zMenu; the actual content
+# (dummy fill + warps + click handling) is drawn by the custom button.
+#
+####################################################
+
+size: 27
+
+name: "&8Faction Warps"
+
+items:
+  factions_warps_renderer:
+    type: factions_warps
+    slot: 0
+    item:
+      material: AIR

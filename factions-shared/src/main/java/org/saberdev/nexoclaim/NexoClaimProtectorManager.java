@@ -48,7 +48,7 @@ public final class NexoClaimProtectorManager {
     private long fuelTickSeconds = 1L;
     private final Map<String, ProtectorDefinition> definitions = new HashMap<>();
 
-    private int taskId = -1;
+    private com.tcoded.folialib.wrapper.task.WrappedTask taskId = null;
 
     public NexoClaimProtectorManager(FactionsPlugin plugin) {
         this.plugin = plugin;
@@ -259,15 +259,15 @@ public final class NexoClaimProtectorManager {
     }
 
     public void startTicking() {
-        if (taskId != -1 || !enabled) return;
+        if (taskId != null || !enabled) return;
         long ticks = fuelTickSeconds * 20L;
-        taskId = Bukkit.getScheduler().runTaskTimer(plugin, this::tick, ticks, ticks).getTaskId();
+        taskId = com.massivecraft.factions.util.FactionsScheduler.runTimer(this::tick, ticks, ticks);
     }
 
     public void stopTicking() {
-        if (taskId != -1) {
-            Bukkit.getScheduler().cancelTask(taskId);
-            taskId = -1;
+        if (taskId != null) {
+            com.massivecraft.factions.util.FactionsScheduler.cancel(taskId);
+            taskId = null;
         }
     }
 
